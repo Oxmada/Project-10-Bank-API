@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./server
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongodb://mongo:27017/argentbank
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo-data:
+
+
+
