@@ -1,54 +1,88 @@
-import Footer from "../components/Footer";
-import logo from "../assets/argentBankLogo.png";
-
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
+import { loginUser, loginSuccess } from "../redux/UserSlice"
+import Footer from "../components/Footer"
+import logo from "../assets/argentBankLogo.png"
 
 function SignIn() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError("");
+        setLoading(true);
+
+        dispatch(loginUser({ email, password }))
+            .unwrap()
+            .then((token) => {
+                dispatch(loginSuccess(token));
+                navigate("/user");  // Redirection
+            })
+            .catch((err) => {
+                setError(err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
     return (
         <div>
             <nav className="main-nav">
-                <a className="main-nav-logo" href="./index.html">
-                    <img
-                        className="main-nav-logo-image"
-                        src={logo}
-                        alt="Argent Bank Logo"
-                    />
+                <a className="main-nav-logo" href="/">
+                    <img className="main-nav-logo-image" src={logo} alt="Argent Bank Logo" />
                     <h1 className="sr-only">Argent Bank</h1>
                 </a>
-                <div>
-                    <a className="main-nav-item" href="./sign-in.html">
-                        <i className="fa fa-user-circle"></i>
-                        Sign In
-                    </a>
-                </div>
             </nav>
 
             <main className="main bg-dark">
                 <section className="sign-in-content">
                     <i className="fa fa-user-circle sign-in-icon"></i>
                     <h1>Sign In</h1>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
-                            <input type="text" id="username" />
+                            <input
+                                type="email"
+                                id="username"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" />
+                            <input
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
                         </div>
                         <div className="input-remember">
                             <input type="checkbox" id="remember-me" />
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
-                        {/* TEMPORARY LINK – replace with button + logic later */}
-                        <a href="./user.html" className="sign-in-button">Sign In</a>
-                        {/* Preferred: <button className="sign-in-button">Sign In</button> */}
+
+                        {error && <p style={{ color: "red" }}>{error}</p>}
+                        <button className="sign-in-button" type="submit" disabled={loading}>
+                            {loading ? "Connexion..." : "Sign In"}
+                        </button>
                     </form>
                 </section>
             </main>
 
             <Footer />
         </div>
-    );
+    )
 }
 
-export default SignIn;
+export default SignIn
