@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
-import logo from "../assets/argentBankLogo.png";
+import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import Footer from "../components/Footer"
+import logo from "../assets/argentBankLogo.png"
 
 function User() {
+    const firstName = useSelector((state) => state.user.firstName)
+    const lastName = useSelector((state) => state.user.lastName)
+
     return (
         <div>
             <nav className="main-nav">
                 <Link className="main-nav-logo" to="/">
-                    <img
-                        className="main-nav-logo-image"
-                        src={logo}
-                        alt="Argent Bank Logo"
-                    />
+                    <img className="main-nav-logo-image" src={logo} alt="Argent Bank Logo" />
                     <h1 className="sr-only">Argent Bank</h1>
                 </Link>
                 <div>
                     <Link className="main-nav-item" to="/user">
                         <i className="fa fa-user-circle"></i>
-                        Tony
+                        {firstName}
                     </Link>
                     <Link className="main-nav-item" to="/">
                         <i className="fa fa-sign-out"></i>
@@ -30,7 +30,7 @@ function User() {
                 <div className="header">
                     <h1>
                         Welcome back<br />
-                        Tony Jarvis!
+                        {firstName} {lastName}!
                     </h1>
                     <button className="edit-button">Edit Name</button>
                 </div>
@@ -73,8 +73,9 @@ function User() {
 
             <Footer />
         </div>
-    );
+    )
 }
 
-export default User;
+export default User
+
 

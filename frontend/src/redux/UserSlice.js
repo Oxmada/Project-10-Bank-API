@@ -2,36 +2,68 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export const loginUser = createAsyncThunk(
-  'auth/loginUser',
+  'user/loginUser',
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('http://localhost:3001/api/v1/user/login', credentials)
-      return response.data.token
+      return response.data.body.token
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || 'Erreur de connexion')
     }
   }
 )
 
+export const fetchUserProfile = createAsyncThunk(
+  'user/fetchUserProfile',
+  async (_, thunkAPI) => {
+    const token = thunkAPI.getState().user.token
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/v1/user/profile',
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      return response.data.body
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Erreur lors du chargement du profil")
+    }
+  }
+)
+
+
+
 const UserSlice = createSlice({
-  name: 'auth',
+  name: 'user',
   initialState: {
     token: null,
     isLoggedIn: false,
+    firstName: '',
+    lastName: '',
   },
   reducers: {
-    loginSuccess: (state, action) => {
-      state.token = action.payload
-      state.isLoggedIn = true
-    },
     logout: (state) => {
       state.token = null
       state.isLoggedIn = false
+      state.firstName = ''
+      state.lastName = ''
     },
   },
+  extraReducers: (builder) => {
+  builder
+    .addCase(loginUser.fulfilled, (state, action) => {
+      state.token = action.payload
+      state.isLoggedIn = true
+    })
+    .addCase(fetchUserProfile.fulfilled, (state, action) => {
+      state.firstName = action.payload.firstName
+      state.lastName = action.payload.lastName
+    })
+}
+
 })
 
-export const { loginSuccess, logout } = UserSlice.actions
+export const { logout } = UserSlice.actions
 export default UserSlice.reducer
+
 
 
