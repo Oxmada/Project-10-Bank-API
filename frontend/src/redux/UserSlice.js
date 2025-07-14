@@ -30,7 +30,22 @@ export const fetchUserProfile = createAsyncThunk(
   }
 )
 
-
+export const editUserProfile = createAsyncThunk(
+  'user/editUserProfile',
+  async ({ firstName, lastName }, thunkAPI) => {
+    const token = thunkAPI.getState().user.token
+    try {
+      const response = await axios.put(
+        'http://localhost:3001/api/v1/user/profile',
+        { firstName, lastName },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      return response.data.body
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Erreur lors de la mise à jour du profil")
+    }
+  }
+)
 
 const UserSlice = createSlice({
   name: 'user',
@@ -49,21 +64,26 @@ const UserSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-  builder
-    .addCase(loginUser.fulfilled, (state, action) => {
-      state.token = action.payload
-      state.isLoggedIn = true
-    })
-    .addCase(fetchUserProfile.fulfilled, (state, action) => {
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
-    })
-}
-
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.token = action.payload
+        state.isLoggedIn = true
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.firstName = action.payload.firstName
+        state.lastName = action.payload.lastName
+      })
+      .addCase(editUserProfile.fulfilled, (state, action) => {
+        state.firstName = action.payload.firstName
+        state.lastName = action.payload.lastName
+      })
+  },
 })
 
 export const { logout } = UserSlice.actions
 export default UserSlice.reducer
+
+
 
 
 
