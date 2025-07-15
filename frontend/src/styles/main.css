@@ -23,16 +23,19 @@ body {
 
 .sr-only {
   border: 0 !important;
-  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  /* 1 */
   -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important; /* 2 */
+  clip-path: inset(50%) !important;
+  /* 2 */
   height: 1px !important;
   margin: -1px !important;
   overflow: hidden !important;
   padding: 0 !important;
   position: absolute !important;
   width: 1px !important;
-  white-space: nowrap !important; /* 3 */
+  white-space: nowrap !important;
+  /* 3 */
 }
 
 .main-nav {
@@ -288,4 +291,36 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.edit-inputs input {
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  font-size: 1rem;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.edit-button {
+  background-color: white;
+  border: 1px solid #00bc77;
+  color: #00bc77;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #00bc77;
+  color: white;
 }

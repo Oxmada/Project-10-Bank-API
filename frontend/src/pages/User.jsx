@@ -69,11 +69,13 @@ function User() {
                                     type="text"
                                     value={newFirstName}
                                     onChange={(e) => setNewFirstName(e.target.value)}
+                                    placeholder={firstName}
                                 />
                                 <input
                                     type="text"
                                     value={newLastName}
                                     onChange={(e) => setNewLastName(e.target.value)}
+                                    placeholder={lastName}
                                 />
                             </div>
                             <div className="edit-buttons">
