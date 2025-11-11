@@ -1,32 +1,28 @@
-import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import Header from "../components/header";
 
-import logo from "../assets/argentBankLogo.png";
 import iconChat from "../assets/icon-chat.png";
 import iconMoney from "../assets/icon-money.png";
 import iconSecurity from "../assets/icon-security.png";
+import bankTree from "../assets/bank-tree.jpeg";
 
 function Home() {
     return (
         <div>
-            <nav className="main-nav">
-                <Link className="main-nav-logo" to="/">
-                    <img
-                        className="main-nav-logo-image"
-                        src={logo}
-                        alt="Argent Bank Logo"
-                    />
-                    <h1 className="sr-only">Argent Bank</h1>
-                </Link>
-                <div>
-                    <Link className="main-nav-item" to="/sign-in">
-                        <i className="fa fa-user-circle"></i>
-                        Sign In
-                    </Link>
-                </div>
-            </nav>
+            {/* Header */}
+            <Header />
 
-            <main>
+            {/* Contenu principal avec background */}
+            <main
+                className="home-main"
+                style={{
+                    backgroundImage: `url(${bankTree})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    flex: 1,
+                }}
+            >
                 <div className="hero">
                     <section className="hero-content">
                         <h2 className="sr-only">Promoted Content</h2>
@@ -81,11 +77,12 @@ function Home() {
                     </div>
                 </section>
             </main>
-            <div>
-                <Footer />
-            </div>
+
+            {/* Footer */}
+            <Footer />
         </div>
     );
 }
 
 export default Home;
+

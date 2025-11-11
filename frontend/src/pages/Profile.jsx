@@ -5,7 +5,7 @@ import Footer from "../components/Footer"
 import logo from "../assets/argentBankLogo.png"
 import { useState } from "react"
 
-function User() {
+function profile() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { firstName, lastName } = useSelector((state) => state.user)
@@ -47,10 +47,11 @@ function User() {
                         <i className="fa fa-user-circle"></i>
                         {firstName}
                     </Link>
-                    <button className="main-nav-item" onClick={handleLogout}>
+                    <button className="main-nav-item sign-out-button" onClick={handleLogout}>
                         <i className="fa fa-sign-out"></i>
-                        Sign out
+                        Sign Out
                     </button>
+
                 </div>
             </nav>
 
@@ -124,7 +125,7 @@ function User() {
     )
 }
 
-export default User
+export default profile
 
 
 

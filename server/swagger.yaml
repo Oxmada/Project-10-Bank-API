@@ -8,17 +8,18 @@ host: localhost:3001
 basePath: /api/v1
 schemes:
   - http
+
 paths:
   /user/login:
     post:
       tags:
         - User Module
       summary: Login
-      description: API for Login
+      description: API for user login
       parameters:
         - in: body
           name: body
-          description: Login Payload
+          description: Login payload
           required: true
           schema:
             $ref: '#/definitions/Login'
@@ -26,23 +27,24 @@ paths:
         - application/json
       responses:
         '200':
-          description: Login Successfully
+          description: Login successful
           schema:
             $ref: '#/definitions/LoginResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
+
   /user/signup:
     post:
       tags:
         - User Module
       summary: Signup
-      description: API for Signup
+      description: API for user registration
       parameters:
         - in: body
           name: body
-          description: Signup Payload
+          description: Signup payload
           required: true
           schema:
             $ref: '#/definitions/User'
@@ -50,49 +52,53 @@ paths:
         - application/json
       responses:
         '200':
-          description: Signup Successfully
+          description: Signup successful
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
+
   /user/profile:
     post:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Get user profile
       description: API for fetching a user profile
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
+
     put:
       security:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Update user profile
       description: API for updating a user profile
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -103,41 +109,47 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile updated successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid fields
         '500':
-          description: Internal Server Error
+          description: Internal server error
+
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: User email
       password:
         type: string
-        description: user password
+        description: User password
       firstName:
         type: string
-        description: user first name
+        description: User first name
       lastName:
         type: string
-        description: user last name
+        description: User last name
+
   Login:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: User email
       password:
         type: string
-        description: user password
+        description: User password
+
   ApiResponse:
     type: object
     properties:
@@ -152,11 +164,13 @@ definitions:
             type: string
           email:
             type: string
+
   LoginResponse:
     type: object
     properties:
       token:
         type: string
+
   UserProfile:
     type: object
     properties:
@@ -164,3 +178,4 @@ definitions:
         type: string
       lastName:
         type: string
+

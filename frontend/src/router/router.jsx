@@ -1,23 +1,25 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home"
-import SignIn from "../pages/SignIn"
-import User from "../pages/User"
+import Login from "../pages/Login"
+import Profile from "../pages/Profile"
 import PrivateRoute from "../components/privateRoute"
 
 function Router() {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-in" element={<Navigate to="/login" replace />} /> {/* Redirection */}
             <Route
-                path="/user"
+                path="/profile"
                 element={
                     <PrivateRoute>
-                        <User />
+                        <Profile />
                     </PrivateRoute>
                 }
             />
         </Routes>
+
     )
 }
 
